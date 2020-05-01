@@ -1,0 +1,8 @@
+#!/bin/bash
+
+whoami
+mkdir -p /mnt/test
+cd /mnt
+source "/mnt/jupyter/conda/bin/activate";
+jupyter lab --no-browser --ip=0.0.0.0 --port=8888 --NotebookApp.allow_password_change=False --notebook-dir=/mnt/test
+
