@@ -1,7 +1,7 @@
 FROM amazoncorretto:8
 
 RUN yum -y update
-RUN yum -y install yum-utils wget curl git zip vim
+RUN yum -y install tar  wget curl git zip
 
 RUN java -version
 
@@ -20,5 +20,5 @@ ENV PATH=$PATH:/opt/
 
 WORKDIR /mnt/
 
-CMD ["/bin/bash","/opt/starter"]
+CMD ["/bin/bash"]
 

@@ -2,7 +2,11 @@
 
 whoami
 mkdir -p /mnt/test
+mkdir -p /mnt/logs
+
 cd /mnt
-source "/mnt/jupyter/conda/bin/activate";
-jupyter lab --no-browser --ip=0.0.0.0 --port=8888 --NotebookApp.allow_password_change=False --notebook-dir=/mnt/test
+source "/mnt/jupyter/conda/bin/activate" JupyterSystemEnv
+source ~/.bashrc
+
+jupyter lab --no-browser --ip=0.0.0.0 --port=8888 --NotebookApp.disable_check_xsrf=True  --NotebookApp.allow_password_change=False --notebook-dir=/mnt/test 2>&1 | tee -a /mnt/logs/jupyter.log
 

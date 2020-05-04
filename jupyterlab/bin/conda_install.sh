@@ -12,8 +12,16 @@ bash "$WORKING_DIR/anaconda.sh" -b -u -p "$WORKING_DIR/conda"
 rm -rf "$WORKING_DIR/anaconda.sh"
 # Create a custom conda environment
 source "$WORKING_DIR/conda/bin/activate"
-pip install --quiet ipykernel
-pip install --quiet s3contents
+
+conda update conda -y
+conda update anaconda -y
+
+conda create -n JupyterSystemEnv python=3.7 anaconda -y
+
+source "$WORKING_DIR/conda/bin/activate"  JupyterSystemEnv
+
+conda install --yes -c conda-forge ipykernel
+conda install --yes -c conda-forge s3contents
 
 # Customize these lines as necessary to install the required packages
 #conda install --yes numpy
@@ -23,8 +31,15 @@ conda install --yes -c conda-forge jupyterlab
 
 conda install --yes -c conda-forge jupyter
 
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 
-conda install --yes -c conda-forge nodejs
+. ~/.nvm/nvm.sh
+
+nvm install node
+
+node -e "console.log('Running Node.js ' + process.version)"
+
+#conda install --yes -c conda-forge nodejs
 
 
 
@@ -54,6 +69,9 @@ echo '{
     "password": "sha1:eddc1cbfac1e:34b59c2d4d12f78e31874e40e2d0eb85520cad15"
   }
 }' >/home/jupyter/.jupyter/jupyter_notebook_config.json
+
+
+jupyter --version
 
 echo "completed"
 
