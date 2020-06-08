@@ -108,7 +108,9 @@ jupyter toree install --spark_home=$SPARK_HOME --sys-prefix
 mkdir /mnt/test
 conda create -n pyspark3 -c conda-forge  python=3.7 -y
 conda activate pyspark3
-#conda install --yes -c conda-forge ipykernel
+conda install --yes -c conda-forge ipykernel
 python -m ipykernel install --name pyspark3 --display-name "pyspark3" --user
+cd /mnt/jupyter
+source "conda/bin/activate"  JupyterSystemEnv
 jupyter lab --no-browser --ip=0.0.0.0 --port=9443 --NotebookApp.disable_check_xsrf=True --NotebookApp.allow_password_change=False --notebook-dir=/mnt/test 
 
