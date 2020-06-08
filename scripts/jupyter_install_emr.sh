@@ -63,7 +63,7 @@ c.S3ContentsManager.prefix ="gluejupyter"
 
 EOT
 
-
+##GlueDev
 echo '{
   "NotebookApp": {
     "password": "sha1:eddc1cbfac1e:34b59c2d4d12f78e31874e40e2d0eb85520cad15"
