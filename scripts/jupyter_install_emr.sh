@@ -48,8 +48,14 @@ jupyter notebook --generate-config -y
 cat <<EOT >> $HOME/.jupyter/jupyter_notebook_config.py
 import os
 from s3contents import S3ContentsManager
+import boto3
+import logging
 
 c = get_config()
+
+##disble bot3 debug logs
+
+boto3.set_stream_logger('botocore.vendored.requests', logging.ERROR)
 
 # Tell Jupyter to use S3ContentsManager for all storage.
 c.NotebookApp.contents_manager_class = S3ContentsManager
@@ -63,7 +69,7 @@ c.S3ContentsManager.prefix ="gluejupyter"
 
 EOT
 
-##GlueDev
+
 echo '{
   "NotebookApp": {
     "password": "sha1:eddc1cbfac1e:34b59c2d4d12f78e31874e40e2d0eb85520cad15"
@@ -83,7 +89,6 @@ unalias python
 conda install --yes -c conda-forge pip
 pip install jupyterlab-s3-browser
 pip install toree
-
 export JAVA_HOME="/etc/alternatives/jre"
 export HADOOP_HOME_WARN_SUPPRESS="true"
 export HADOOP_HOME="/usr/lib/hadoop"
@@ -108,9 +113,15 @@ jupyter toree install --spark_home=$SPARK_HOME --sys-prefix
 mkdir /mnt/test
 conda create -n pyspark3 -c conda-forge  python=3.7 -y
 conda activate pyspark3
+conda install --yes -c conda-forge s3contents
+conda install --yes -c conda-forge ipywidgets
 conda install --yes -c conda-forge ipykernel
 python -m ipykernel install --name pyspark3 --display-name "pyspark3" --user
+conda deactivate
 cd /mnt/jupyter
 source "conda/bin/activate"  JupyterSystemEnv
+jupyter labextension install jupyterlab-s3-browser
+jupyter labextension install @jupyter-widgets/jupyterlab-manager
+jupyter labextension install @jupyterlab/toc
 jupyter lab --no-browser --ip=0.0.0.0 --port=9443 --NotebookApp.disable_check_xsrf=True --NotebookApp.allow_password_change=False --notebook-dir=/mnt/test 
 
